@@ -1,2 +1,2 @@
-# Computer Science 2
-#Codes written in cpp
+# Codes are written in cpp 
+
