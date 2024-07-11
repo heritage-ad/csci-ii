@@ -50,16 +50,19 @@ public:
 };
 
 class WideReceiver : public Player {
-    public:
+public:
     WideReceiver(std::string name, int playerID) : Player(name, playerID) {}
+
     std::string getPlayerPosition() const override {
         return "Wide Receiver";
     }
+
     void play() const override {
         std::cout << "Catches passes" << std::endl;
     }
+
     std::string toString() const override {
-        return name + " (#" + std::to_string(playerID) + ") - WideReceiver";
+        return name + " (#" + std::to_string(playerID) + ") - Wide Receiver";
     }
 };
 
@@ -235,27 +238,67 @@ public:
     }
 };
 
+void addPlayer(std::vector<Player*>& team) {
+    std::string name;
+    int playerID;
+    int choice;
+
+    std::cout << "Enter player name: ";
+    std::cin.ignore();  // Ignore any leftover newline characters in the input buffer
+    std::getline(std::cin, name);  // Get the full name including spaces
+    std::cout << "Enter player ID: ";
+    std::cin >> playerID;
+
+    std::cout << "Select player position:\n";
+    std::cout << "1. Quarterback\n";
+    std::cout << "2. Wide Receiver\n";
+    std::cout << "3. Tight End\n";
+    std::cout << "4. Running Back\n";
+    std::cout << "5. Offensive Lineman\n";
+    std::cout << "6. Defensive Lineman\n";
+    std::cout << "7. Linebacker\n";
+    std::cout << "8. Defensive Back\n";
+    std::cout << "9. Kicker\n";
+    std::cout << "10. Holder\n";
+    std::cout << "11. Punter\n";
+    std::cout << "12. Returner\n";
+    std::cout << "Enter choice: ";
+    std::cin >> choice;
+
+    Player* player = nullptr;
+
+    switch (choice) {
+        case 1: player = new Quarterback(name, playerID); break;
+        case 2: player = new WideReceiver(name, playerID); break;
+        case 3: player = new TightEnd(name, playerID); break;
+        case 4: player = new RunningBack(name, playerID); break;
+        case 5: player = new OffensiveLineman(name, playerID); break;
+        case 6: player = new DefensiveLineman(name, playerID); break;
+        case 7: player = new Linebacker(name, playerID); break;
+        case 8: player = new DefensiveBack(name, playerID); break;
+        case 9: player = new Kicker(name, playerID); break;
+        case 10: player = new Holder(name, playerID); break;
+        case 11: player = new Punter(name, playerID); break;
+        case 12: player = new Returner(name, playerID); break;
+        default: std::cout << "Invalid choice!" << std::endl; return;
+    }
+
+    team.push_back(player);
+}
+
 int main() {
-    std::vector<Player*> team; // Vector to hold players on the team
+    std::vector<Player*> team;  // Vector to hold players on the team
+    int numPlayers;
 
-    // Adding players to the team
-    team.push_back(new Quarterback("Tom Brady", 12));
-    team.push_back(new WideReceiver("Julio Jones", 11));
-    team.push_back(new TightEnd("Travis Kelce", 87));
-    team.push_back(new RunningBack("Derrick Henry", 22));
-    team.push_back(new OffensiveLineman("Joe Thomas", 73));
+    std::cout << "How many players do you want to add to the team? ";
+    std::cin >> numPlayers;
 
-    team.push_back(new DefensiveLineman("Aaron Donald", 99));
-    team.push_back(new Linebacker("Luke Kuechly", 59));
-    team.push_back(new DefensiveBack("Jalen Ramsey", 20));
-
-    team.push_back(new Kicker("Justin Tucker", 9));
-    team.push_back(new Holder("Morgan Cox", 46));
-    team.push_back(new Punter("Johnny Hekker", 6));
-    team.push_back(new Returner("Cordarrelle Patterson", 84));
+    for (int i = 0; i < numPlayers; ++i) {
+        addPlayer(team);
+    }
 
     // Displaying the list of players on the team
-    std::cout << "List of Players on the Team:" << std::endl;
+    std::cout << "\nList of Players on the Team:\n";
     for (const Player* player : team) {
         std::cout << player->toString() << std::endl;
         player->play();
@@ -272,6 +315,3 @@ int main() {
 
     return 0;
 }
-
-
-
